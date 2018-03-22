@@ -392,6 +392,7 @@ public class DynamicPerformanceSuite {
             e.printStackTrace();
             System.exit(1);
         }
+        boolean prepareTCChart = System.getProperty("tcchart.enable","").toLowerCase().contains("true");
 
         SwingUtilities.invokeLater(() -> {
             JFrame.setDefaultLookAndFeelDecorated(true);
@@ -413,6 +414,8 @@ public class DynamicPerformanceSuite {
                             suite.runSingleRound(i >= warmups, specificScenarioId);
                         }
                         long totalMin = 0;
+                        StringBuilder tcReport = new StringBuilder();
+
                         for (ScenarioTimesInfo timesInfo : suite.scenarioTimes) {
                             List<Long> times = timesInfo.times;
                             long avg = 0;
@@ -440,11 +443,25 @@ public class DynamicPerformanceSuite {
                                     "avg %1$4d, min %2$4d, max %3$4d, dev %4$4.2f %5$15s : %6$s",
                                     avg, min, max, deviance, timesInfo.tabTitle,
                                     timesInfo.scenarioName);
+                            if (prepareTCChart) {
+                                StringBuilder tcSb = new StringBuilder();
+                                Formatter tcFormatter = new Formatter(tcSb, Locale.US);
+                                tcFormatter.format(
+                                        "key='%5$s:%6$s' value=%1$d",
+                                        //"avg %1$4d, min %2$4d, max %3$4d, dev %4$4.2f %5$15s : %6$s",
+                                        avg, min, max, deviance, timesInfo.tabTitle,
+                                        timesInfo.scenarioName);
+                                tcFormatter.close();
+                                tcReport.append(tcSb.toString() + "\n");
+                            }
                             formatter.close();
                             System.out.println(sb.toString());
                             totalMin += min;
                         }
                         System.out.println("\n" + totalMin + " totalMin");
+                        if (prepareTCChart) {
+                            System.out.println("\n\n" + tcReport);
+                        }
 
                         System.exit(0);
                     }
