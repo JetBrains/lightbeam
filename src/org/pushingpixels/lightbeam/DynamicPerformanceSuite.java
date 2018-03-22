@@ -449,8 +449,8 @@ public class DynamicPerformanceSuite {
                                 tcFormatter.format(
                                         "key='%5$s:%6$s' value=%1$d",
                                         //"avg %1$4d, min %2$4d, max %3$4d, dev %4$4.2f %5$15s : %6$s",
-                                        avg, min, max, deviance, timesInfo.tabTitle,
-                                        timesInfo.scenarioName);
+                                        avg, min, max, deviance, timesInfo.tabTitle.replace(' ', '_'),
+                                        timesInfo.scenarioName.replace(' ', '_'));
                                 tcFormatter.close();
                                 tcReport.append(tcSb.toString() + "\n");
                             }
