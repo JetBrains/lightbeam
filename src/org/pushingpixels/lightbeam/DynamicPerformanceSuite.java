@@ -80,6 +80,8 @@ public class DynamicPerformanceSuite {
 
     private long edtThreadId;
 
+    private static String lafClass;
+
     public class ComponentInfo {
         public Component tabComponent;
 
@@ -379,7 +381,7 @@ public class DynamicPerformanceSuite {
         if (System.getProperty("os.name").toLowerCase(Locale.US).startsWith("mac"))
             UIManager.setLookAndFeel(new javax.swing.plaf.metal.MetalLookAndFeel());
 
-        String lafClass = System.getProperty("test.laf");
+        lafClass = System.getProperty("test.laf");
         UIManager.setLookAndFeel(
                 (BasicLookAndFeel) ClassLoader.getSystemClassLoader().loadClass(lafClass).newInstance());
     }
@@ -410,6 +412,7 @@ public class DynamicPerformanceSuite {
                             specificScenarioId = args[1];
                         }
                         int warmups = 5;
+                        System.out.println("Look-and-Feel: " + lafClass);
                         for (int i = 0; i < loopCount + warmups; i++) {
                             suite.runSingleRound(i >= warmups, specificScenarioId);
                         }
@@ -447,10 +450,11 @@ public class DynamicPerformanceSuite {
                                 StringBuilder tcSb = new StringBuilder();
                                 Formatter tcFormatter = new Formatter(tcSb, Locale.US);
                                 tcFormatter.format(
-                                        "##teamcity[buildStatisticValue key='%5$s.%6$s' value='%1$d']",
+                                        "##teamcity[buildStatisticValue key='%7$s:%5$s:%6$s' value='%1$d']",
                                         //"avg %1$4d, min %2$4d, max %3$4d, dev %4$4.2f %5$15s : %6$s",
                                         avg, min, max, deviance, timesInfo.tabTitle.replace(' ', '_'),
-                                        timesInfo.scenarioName.replace(' ', '_'));
+                                        timesInfo.scenarioName.replace(' ', '_'),
+                                        lafClass.substring(lafClass.lastIndexOf(".") + 1).trim());
                                 tcFormatter.close();
                                 tcReport.append(tcSb.toString() + "\n");
                             }
