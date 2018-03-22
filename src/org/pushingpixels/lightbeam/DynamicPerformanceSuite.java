@@ -377,7 +377,7 @@ public class DynamicPerformanceSuite {
             InstantiationException, ClassNotFoundException {
 
         if (System.getProperty("os.name").toLowerCase(Locale.US).startsWith("mac"))
-            UIManager.setLookAndFeel(new com.apple.laf.AquaLookAndFeel());
+            UIManager.setLookAndFeel(new javax.swing.plaf.metal.MetalLookAndFeel());
 
         String lafClass = System.getProperty("test.laf");
         UIManager.setLookAndFeel(
