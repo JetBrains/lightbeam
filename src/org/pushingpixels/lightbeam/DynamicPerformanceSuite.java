@@ -38,6 +38,7 @@ import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Formatter;
 import java.util.LinkedList;
 import java.util.List;
@@ -394,7 +395,7 @@ public class DynamicPerformanceSuite {
             e.printStackTrace();
             System.exit(1);
         }
-        boolean prepareTCChart = System.getProperty("tcchart.enable","").toLowerCase().contains("true");
+        boolean prepareTCChart = System.getProperty("tcchart.enable", "").toLowerCase().contains("true");
 
         SwingUtilities.invokeLater(() -> {
             JFrame.setDefaultLookAndFeelDecorated(true);
@@ -494,6 +495,11 @@ public class DynamicPerformanceSuite {
                 }
             }
         }
+        componentInfo.scenarios.sort(new Comparator<PerformanceScenario>() {
+            public int compare(PerformanceScenario o1, PerformanceScenario o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
     }
 
     private void scanAndAddTab(String tabTitle, Component tabComp) {
