@@ -77,6 +77,8 @@ import org.pushingpixels.lightbeam.panels.TextFieldsPanel;
 import org.pushingpixels.lightbeam.panels.TreePanel;
 
 public class DynamicPerformanceSuite {
+
+    public static final String GTL_LAF_CLASS = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
     private ThreadMXBean threadBean;
 
     private long edtThreadId;
@@ -379,11 +381,13 @@ public class DynamicPerformanceSuite {
     private static void setLookAndFeel() throws UnsupportedLookAndFeelException, IllegalAccessException,
             InstantiationException, ClassNotFoundException {
 
-        if (System.getProperty("os.name").toLowerCase(Locale.US).startsWith("mac"))
+        if (System.getProperty("os.name").toLowerCase(Locale.US).startsWith("mac") ||
+                System.getProperty("os.name").toLowerCase(Locale.US).startsWith("windows"))
             UIManager.setLookAndFeel(new javax.swing.plaf.metal.MetalLookAndFeel());
         else if (System.getProperty("os.name").toLowerCase(Locale.US).startsWith("linux")) {
             UIManager.setLookAndFeel(new javax.swing.plaf.metal.MetalLookAndFeel());
-            UIManager.setLookAndFeel(new com.sun.java.swing.plaf.gtk.GTKLookAndFeel());
+            UIManager.setLookAndFeel(
+                    (BasicLookAndFeel) ClassLoader.getSystemClassLoader().loadClass(GTL_LAF_CLASS).newInstance());
         }
 
         lafClass = System.getProperty("test.laf");
