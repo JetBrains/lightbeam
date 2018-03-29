@@ -381,6 +381,10 @@ public class DynamicPerformanceSuite {
 
         if (System.getProperty("os.name").toLowerCase(Locale.US).startsWith("mac"))
             UIManager.setLookAndFeel(new javax.swing.plaf.metal.MetalLookAndFeel());
+        else if (System.getProperty("os.name").toLowerCase(Locale.US).startsWith("linux")) {
+            UIManager.setLookAndFeel(new javax.swing.plaf.metal.MetalLookAndFeel());
+            UIManager.setLookAndFeel(new com.sun.java.swing.plaf.gtk.GTKLookAndFeel());
+        }
 
         lafClass = System.getProperty("test.laf");
         UIManager.setLookAndFeel(
