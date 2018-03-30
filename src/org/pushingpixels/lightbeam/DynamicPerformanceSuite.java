@@ -78,7 +78,7 @@ import org.pushingpixels.lightbeam.panels.TreePanel;
 
 public class DynamicPerformanceSuite {
 
-    public static final String GTL_LAF_CLASS = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
+    public static final String GTK_LAF_CLASS = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
     private ThreadMXBean threadBean;
 
     private long edtThreadId;
@@ -387,7 +387,7 @@ public class DynamicPerformanceSuite {
         else if (System.getProperty("os.name").toLowerCase(Locale.US).startsWith("linux")) {
             UIManager.setLookAndFeel(new javax.swing.plaf.metal.MetalLookAndFeel());
             UIManager.setLookAndFeel(
-                    (BasicLookAndFeel) ClassLoader.getSystemClassLoader().loadClass(GTL_LAF_CLASS).newInstance());
+                    (BasicLookAndFeel) ClassLoader.getSystemClassLoader().loadClass(GTK_LAF_CLASS).newInstance());
         }
 
         lafClass = System.getProperty("test.laf");
