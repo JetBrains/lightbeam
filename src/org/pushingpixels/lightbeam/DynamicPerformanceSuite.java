@@ -61,6 +61,8 @@ import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.basic.BasicLookAndFeel;
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.StyleSheet;
 
 import org.pushingpixels.lightbeam.panels.BigTextAreaPanel;
 import org.pushingpixels.lightbeam.panels.ButtonsPanel;
@@ -378,6 +380,28 @@ public class DynamicPerformanceSuite {
         System.out.println();
     }
 
+    private static final StyleSheet DEFAULT_HTML_KIT_CSS;
+
+    static {
+        // save the default JRE CSS and ..
+        HTMLEditorKit kit = new HTMLEditorKit();
+        DEFAULT_HTML_KIT_CSS = kit.getStyleSheet();
+    }
+
+    public static StyleSheet createStyleSheet() {
+        StyleSheet style = new StyleSheet();
+        style.addStyleSheet(isUnderDarcula() ? (StyleSheet)UIManager.getDefaults().get("StyledEditorKit.JBDefaultStyle") : DEFAULT_HTML_KIT_CSS);
+        style.addRule("code { font-size: 100%; }"); // small by Swing's default
+        style.addRule("small { font-size: small; }"); // x-small by Swing's default
+        style.addRule("a { text-decoration: none;}");
+
+        return style;
+    }
+
+    public static boolean isUnderDarcula() {
+        return UIManager.getLookAndFeel().getName().contains("Darcula");
+    }
+
     private static void setLookAndFeel() throws UnsupportedLookAndFeelException, IllegalAccessException,
             InstantiationException, ClassNotFoundException {
 
@@ -393,6 +417,10 @@ public class DynamicPerformanceSuite {
         lafClass = System.getProperty("test.laf");
         UIManager.setLookAndFeel(
                 (BasicLookAndFeel) ClassLoader.getSystemClassLoader().loadClass(lafClass).newInstance());
+
+        // static init it is hell - UIUtil static init is called too early, so, call it to init properly
+        // (otherwise null stylesheet added and it leads to NPE on set comment text)
+        UIManager.getDefaults().put("javax.swing.JLabel.userStyleSheet", createStyleSheet());
     }
 
     public static void main(final String[] args) {
