@@ -35,6 +35,7 @@ import java.util.Random;
 import javax.swing.*;
 
 import org.pushingpixels.lightbeam.*;
+import org.pushingpixels.lightbeam.componentsFactory.ComponentsFactory;
 
 /**
  * Test application panel for testing {@link JTabbedPane} component.
@@ -47,10 +48,10 @@ public class TabsPanel extends JPanel {
 	/**
 	 * Creates a new tabbed panel.
 	 */
-	public TabsPanel() {
+	public TabsPanel(ComponentsFactory factory) {
 		this.setLayout(new BorderLayout());
 
-		this.tabbedPane = new JTabbedPane();
+		this.tabbedPane = factory.createTabbedPane();
 		Random seed = new Random(50);
 		for (int i = 0; i < 20; i++) {
 			int backgrColor = Color.HSBtoRGB(seed.nextFloat(), 0.4f, 0.8f);

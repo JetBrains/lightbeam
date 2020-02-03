@@ -39,6 +39,7 @@ import org.pushingpixels.lightbeam.*;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.factories.Borders;
 import com.jgoodies.forms.layout.FormLayout;
+import org.pushingpixels.lightbeam.componentsFactory.ComponentsFactory;
 
 /**
  * Test application panel for testing {@link JTextArea}, {@link JTextField}, {@link JTextPane},
@@ -47,6 +48,7 @@ import com.jgoodies.forms.layout.FormLayout;
  * @author Kirill Grouchnikov
  */
 public class TextAreasPanel extends JPanel {
+    private ComponentsFactory factory;
     /**
      * Returns the panel contents.
      * 
@@ -65,60 +67,60 @@ public class TextAreasPanel extends JPanel {
         builder.append("", editorPaneLabel);
         builder.append(textAreaLabel, textPaneLabel);
 
-        JEditorPane jep1 = new JEditorPane("text/html;", "Sample <b>content</b><br> <u>text</u>");
+        JEditorPane jep1 = factory.createEditorPane("text/html;", "Sample <b>content</b><br> <u>text</u>");
         builder.append("Enabled", jep1);
 
-        JTextArea jta1 = new JTextArea("Sample content text", 3, 20);
-        JTextPane jtp1 = new JTextPane();
+        JTextArea jta1 = factory.createTextArea("Sample content text", 3, 20);
+        JTextPane jtp1 = factory.createTextPane();
         jtp1.replaceSelection("Sample content text");
         jtp1.setPreferredSize(new Dimension(100, 40));
         builder.append(jta1, jtp1);
 
-        JEditorPane jepNotEditable = new JEditorPane("text/html;",
+        JEditorPane jepNotEditable = factory.createEditorPane("text/html;",
                 "Sample <b>content</b><br> <u>text</u>");
         jepNotEditable.setEditable(false);
         builder.append("Not editable", jepNotEditable);
 
-        JTextArea jtaNotEditable = new JTextArea("Sample content text", 3, 20);
+        JTextArea jtaNotEditable = factory.createTextArea("Sample content text", 3, 20);
         jtaNotEditable.setEditable(false);
-        JTextPane jtpNotEditable = new JTextPane();
+        JTextPane jtpNotEditable = factory.createTextPane();
         jtpNotEditable.replaceSelection("Sample content text");
         jtpNotEditable.setPreferredSize(new Dimension(100, 40));
         jtpNotEditable.setEditable(false);
         builder.append(jtaNotEditable, jtpNotEditable);
 
-        JEditorPane jep3 = new JEditorPane("text/html;", "Sample <b>content</b><br> <u>text</u>");
+        JEditorPane jep3 = factory.createEditorPane("text/html;", "Sample <b>content</b><br> <u>text</u>");
         jep3.setEnabled(false);
         builder.append("Disabled", jep3);
 
-        JTextArea jta3 = new JTextArea("Sample content text", 3, 20);
+        JTextArea jta3 = factory.createTextArea("Sample content text", 3, 20);
         jta3.setEnabled(false);
-        JTextPane jtp3 = new JTextPane();
+        JTextPane jtp3 = factory.createTextPane();
         jtp3.replaceSelection("Sample content text");
         jtp3.setPreferredSize(new Dimension(100, 40));
         jtp3.setEnabled(false);
         builder.append(jta3, jtp3);
 
-        JEditorPane jepNonOpaque = new JEditorPane("text/html;",
+        JEditorPane jepNonOpaque = factory.createEditorPane("text/html;",
                 "Sample <b>content</b><br> <u>text</u>");
         jepNonOpaque.setOpaque(false);
         builder.append("Non opaque", jepNonOpaque);
 
-        JTextArea jtaNonOpaque = new JTextArea("Sample content text", 3, 20);
+        JTextArea jtaNonOpaque =  factory.createTextArea("Sample content text", 3, 20);
         jtaNonOpaque.setOpaque(false);
-        JTextPane jtpNonOpaque = new JTextPane();
+        JTextPane jtpNonOpaque = factory.createTextPane();
         jtpNonOpaque.replaceSelection("Sample content text");
         jtpNonOpaque.setPreferredSize(new Dimension(100, 40));
         jtpNonOpaque.setOpaque(false);
         builder.append(jtaNonOpaque, jtpNonOpaque);
 
-        JEditorPane jep4 = new JEditorPane("text/html;", "Sample <b>content</b><br> <u>text</u>");
+        JEditorPane jep4 = factory.createEditorPane("text/html;", "Sample <b>content</b><br> <u>text</u>");
         jep4.setMargin(new Insets(2, 2, 2, 2));
         builder.append("With margin", jep4);
 
-        JTextArea jta4 = new JTextArea("Sample content text", 3, 20);
+        JTextArea jta4 = factory.createTextArea("Sample content text", 3, 20);
         jta4.setMargin(new Insets(2, 2, 2, 2));
-        JTextPane jtp4 = new JTextPane();
+        JTextPane jtp4 = factory.createTextPane();
         jtp4.replaceSelection("Sample content text");
         jtp4.setPreferredSize(new Dimension(100, 40));
         jtp4.setMargin(new Insets(2, 2, 2, 2));
@@ -130,7 +132,8 @@ public class TextAreasPanel extends JPanel {
     /**
      * Creates a test panel with text components.
      */
-    public TextAreasPanel() {
+    public TextAreasPanel(ComponentsFactory factory) {
+        this.factory = factory;
         setLayout(new BorderLayout());
         this.add(new JScrollPane(getContents()), BorderLayout.CENTER);
     }

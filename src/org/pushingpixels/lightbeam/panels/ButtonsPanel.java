@@ -42,6 +42,7 @@ import org.pushingpixels.lightbeam.commands.ConfigurationCommand;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.factories.Borders;
 import com.jgoodies.forms.layout.FormLayout;
+import org.pushingpixels.lightbeam.componentsFactory.ComponentsFactory;
 
 /**
  * Test application panel for testing {@link JButton}, {@link JToggleButton},
@@ -53,6 +54,8 @@ public class ButtonsPanel extends JPanel {
 	/**
 	 * The default button.
 	 */
+
+	private ComponentsFactory factory;
 	public JButton defaultButton;
 
 	/**
@@ -212,13 +215,13 @@ public class ButtonsPanel extends JPanel {
 	 */
 	private AbstractButton[] getRow() {
 		AbstractButton[] result = new AbstractButton[4];
-		result[0] = new JButton("sample");
+		result[0] = factory.createButton("sample");
 		result[0].setName("Button " + rowCount);
-		result[1] = new JToggleButton("sample");
+		result[1] = factory.createToggleButton("sample");
 		result[1].setName("Toggle " + rowCount);
-		result[2] = new JCheckBox("sample");
+		result[2] = factory.createCheckBox("sample");
 		result[2].setName("Check " + rowCount);
-		result[3] = new JRadioButton("sample");
+		result[3] = factory.createRadioButton("sample");
 		result[3].setName("Radio " + rowCount);
 		rowCount++;
 		return result;
@@ -260,7 +263,8 @@ public class ButtonsPanel extends JPanel {
 	 * Creates a new button panel.
 	 */
 	@SuppressWarnings("unchecked")
-	public ButtonsPanel() {
+	public ButtonsPanel(ComponentsFactory factory) {
+		this.factory = factory;
 		this.setLayout(new BorderLayout());
 
 		FormLayout lm = new FormLayout(

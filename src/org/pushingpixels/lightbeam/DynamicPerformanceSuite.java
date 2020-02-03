@@ -64,6 +64,7 @@ import javax.swing.plaf.basic.BasicLookAndFeel;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 
+import org.pushingpixels.lightbeam.componentsFactory.*;
 import org.pushingpixels.lightbeam.panels.BigTextAreaPanel;
 import org.pushingpixels.lightbeam.panels.ButtonsPanel;
 import org.pushingpixels.lightbeam.panels.CombosPanel;
@@ -86,6 +87,8 @@ public class DynamicPerformanceSuite {
     private long edtThreadId;
 
     private static String lafClass;
+
+    private static ComponentsFactory factory;
 
     public class ComponentInfo {
         public Component tabComponent;
@@ -157,43 +160,45 @@ public class DynamicPerformanceSuite {
     public void initialize() {
         this.frame = new JFrame("Dynamic performance suite");
 
-        ButtonsPanel buttonsPanel = new ButtonsPanel();
+        ButtonsPanel buttonsPanel = new ButtonsPanel(factory);
         this.scanAndAddTab("Buttons", buttonsPanel);
 
-        CombosPanel combosPanel = new CombosPanel();
+        CombosPanel combosPanel = new CombosPanel(factory);
         this.scanAndAddTab("Combos", combosPanel);
 
-        TablePanel tablePanel = new TablePanel();
+        TablePanel tablePanel = new TablePanel(factory);
         this.scanAndAddTab("Table", tablePanel);
 
-        ListPanel listPanel = new ListPanel();
+        ListPanel listPanel = new ListPanel(factory);
         this.scanAndAddTab("List", listPanel);
 
-        SliderPanel slidersPanel = new SliderPanel();
-        this.scanAndAddTab("Sliders", slidersPanel);
+        if (factory instanceof JDKComponentsFactory) {
+            SliderPanel slidersPanel = new SliderPanel();
+            this.scanAndAddTab("Sliders", slidersPanel);
+        }
 
-        ProgressBarPanel progressBarsPanel = new ProgressBarPanel();
+        ProgressBarPanel progressBarsPanel = new ProgressBarPanel(factory);
         this.scanAndAddTab("Progress bars", progressBarsPanel);
 
-        TextFieldsPanel textFieldsPanel = new TextFieldsPanel();
+        TextFieldsPanel textFieldsPanel = new TextFieldsPanel(factory);
         this.scanAndAddTab("Text fields", textFieldsPanel);
 
-        TextAreasPanel textAreasPanel = new TextAreasPanel();
+        TextAreasPanel textAreasPanel = new TextAreasPanel(factory);
         this.scanAndAddTab("Text areas", textAreasPanel);
 
-        TabsPanel tabsPanel = new TabsPanel();
+        TabsPanel tabsPanel = new TabsPanel(factory);
         this.scanAndAddTab("Tabs", tabsPanel);
 
-        BigTextAreaPanel bigTextAreaPanel = new BigTextAreaPanel();
+        BigTextAreaPanel bigTextAreaPanel = new BigTextAreaPanel(factory);
         this.scanAndAddTab("Text area", bigTextAreaPanel);
 
-        TreePanel treePanel = new TreePanel();
+        TreePanel treePanel = new TreePanel(factory);
         this.scanAndAddTab("Tree", treePanel);
 
-        SpinnerPanel spinnersPanel = new SpinnerPanel();
+        SpinnerPanel spinnersPanel = new SpinnerPanel(factory);
         this.scanAndAddTab("Spinners", spinnersPanel);
 
-        JMenuBar menuBar = new LightBeamMenuBar();
+        JMenuBar menuBar = new LightBeamMenuBar(factory);
         this.frame.setJMenuBar(menuBar);
         this.scan("Menu bar", menuBar);
 
@@ -422,6 +427,14 @@ public class DynamicPerformanceSuite {
         // (otherwise null stylesheet added and it leads to NPE on set comment text)
         UIManager.getDefaults().put("javax.swing.JLabel.userStyleSheet", createStyleSheet());
     }
+    private static void initControlsFactory() {
+        String controlsType = System.getProperty("test.controls","jdk");
+        if(controlsType.toLowerCase().equals("jb")) {
+            factory = new JBComponentsFactory();
+        } else if (controlsType.toLowerCase().equals("jdk")) {
+            factory = new JDKComponentsFactory();
+        }
+    }
 
     public static void main(final String[] args) {
         try {
@@ -431,6 +444,8 @@ public class DynamicPerformanceSuite {
             e.printStackTrace();
             System.exit(1);
         }
+
+        initControlsFactory();
         boolean prepareTCChart = System.getProperty("tcchart.enable", "").toLowerCase().contains("true");
 
         SwingUtilities.invokeLater(() -> {
@@ -450,6 +465,7 @@ public class DynamicPerformanceSuite {
                         }
                         int warmups = 5;
                         System.out.println("Look-and-Feel: " + lafClass);
+                        System.out.println("Controls: " + factory.getType());
                         for (int i = 0; i < loopCount + warmups; i++) {
                             suite.runSingleRound(i >= warmups, specificScenarioId);
                         }
@@ -487,11 +503,12 @@ public class DynamicPerformanceSuite {
                                 StringBuilder tcSb = new StringBuilder();
                                 Formatter tcFormatter = new Formatter(tcSb, Locale.US);
                                 tcFormatter.format(
-                                        "##teamcity[buildStatisticValue key='%7$s:%5$s:%6$s' value='%1$d']",
+                                        "##teamcity[buildStatisticValue key='%8$s_%7$s:%5$s:%6$s' value='%1$d']",
                                         //"avg %1$4d, min %2$4d, max %3$4d, dev %4$4.2f %5$15s : %6$s",
                                         avg, min, max, deviance, timesInfo.tabTitle.replace(' ', '_'),
                                         timesInfo.scenarioName.replace(' ', '_'),
-                                        lafClass.substring(lafClass.lastIndexOf(".") + 1).trim());
+                                        lafClass.substring(lafClass.lastIndexOf(".") + 1).trim(),
+                                        factory.getType());
                                 tcFormatter.close();
                                 tcReport.append(tcSb.toString() + "\n");
                             }

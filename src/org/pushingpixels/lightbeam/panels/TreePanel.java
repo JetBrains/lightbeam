@@ -35,6 +35,7 @@ import javax.swing.*;
 import javax.swing.tree.*;
 
 import org.pushingpixels.lightbeam.*;
+import org.pushingpixels.lightbeam.componentsFactory.ComponentsFactory;
 
 /**
  * Test application panel for testing {@link JTree} component.
@@ -47,10 +48,10 @@ public class TreePanel extends JPanel {
 	/**
 	 * Creates a new tree panel.
 	 */
-	public TreePanel() {
+	public TreePanel(ComponentsFactory factory) {
 		this.setLayout(new BorderLayout());
 
-		this.tree = new JTree();
+		this.tree = factory.createTree();
 		this.tree.setModel(new DefaultTreeModel(getTreeNode(5, "")));
 
 		this.add(new JScrollPane(this.tree), BorderLayout.CENTER);

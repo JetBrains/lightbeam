@@ -40,6 +40,7 @@ import org.pushingpixels.lightbeam.*;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.factories.Borders;
 import com.jgoodies.forms.layout.FormLayout;
+import org.pushingpixels.lightbeam.componentsFactory.ComponentsFactory;
 
 /**
  * Test application panel for testing {@link JComboBox} component.
@@ -47,6 +48,7 @@ import com.jgoodies.forms.layout.FormLayout;
  * @author Kirill Grouchnikov
  */
 public class CombosPanel extends JPanel {
+	private ComponentsFactory factory;
 	/**
 	 * Returns the left panel with comboboxes.
 	 * 
@@ -58,18 +60,18 @@ public class CombosPanel extends JPanel {
 
 		builder.appendSeparator("Simple combos");
 
-		JComboBox comboRegular = new JComboBox(new Object[] { "entry1",
+		JComboBox comboRegular = factory.createComboBox(new Object[] { "entry1",
 				"entry2", "entry3", "entry4", "entry5", "entry6" });
 		comboRegular.setToolTipText("This is my combo 1");
 		comboRegular.setMaximumRowCount(4);
 		builder.append("Regular", comboRegular);
 
-		JComboBox comboDisabled = new JComboBox(new Object[] { "entry1",
+		JComboBox comboDisabled = factory.createComboBox(new Object[] { "entry1",
 				"entry2", "entry3" });
 		comboDisabled.setEnabled(false);
 		builder.append("Disabled", comboDisabled);
 
-		JComboBox comboColored = new JComboBox(new Object[] { "entry31",
+		JComboBox comboColored = factory.createComboBox(new Object[] { "entry31",
 				"entry32", "entry33", "entry34", "entry35", "entry36", "aaa",
 				"abb", "abc" });
 		comboColored.setName("Colored combo");
@@ -77,19 +79,19 @@ public class CombosPanel extends JPanel {
 		comboColored.setForeground(new Color(0, 0, 128));
 		builder.append("Pink background", comboColored);
 
-		JComboBox comboDefaultCoreRenderer = new JComboBox(new Object[] {
+		JComboBox comboDefaultCoreRenderer = factory.createComboBox(new Object[] {
 				"entry1", "entry2", "entry3", "entry4", "entry5", "entry6" });
 		comboDefaultCoreRenderer.setRenderer(new DefaultListCellRenderer());
 		builder.append("Default core renderer", comboDefaultCoreRenderer);
 
-		JComboBox comboEditable = new JComboBox(new Object[] { "Ester",
+		JComboBox comboEditable = factory.createComboBox(new Object[] { "Ester",
 				"Jordi", "Jordina", "Jorge", "Sergi" });
 		comboEditable.setEditable(true);
 		builder.append("Editable", comboEditable);
 
 		builder.appendSeparator("Miscellaneous");
 
-		JComboBox comboHebrew = new JComboBox(new Object[] {
+		JComboBox comboHebrew = factory.createComboBox(new Object[] {
 				"\u05e8\u05d0\u05e9\u05d9 1", "\u05e8\u05d0\u05e9\u05d9 2",
 				"\u05e8\u05d0\u05e9\u05d9 3", "\u05e8\u05d0\u05e9\u05d9 4",
 				"\u05e8\u05d0\u05e9\u05d9 5", "\u05e8\u05d0\u05e9\u05d9 6",
@@ -100,7 +102,7 @@ public class CombosPanel extends JPanel {
 		comboHebrew.setMaximumRowCount(6);
 		builder.append("RTL (Hebrew)", comboHebrew);
 
-		JComboBox comboHebrewCustomRenderer = new JComboBox(new Object[] {
+		JComboBox comboHebrewCustomRenderer = factory.createComboBox(new Object[] {
 				"\u05e8\u05d0\u05e9\u05d9 1", "\u05e8\u05d0\u05e9\u05d9 2",
 				"\u05e8\u05d0\u05e9\u05d9 3", "\u05e8\u05d0\u05e9\u05d9 4",
 				"\u05e8\u05d0\u05e9\u05d9 5", "\u05e8\u05d0\u05e9\u05d9 6",
@@ -125,24 +127,24 @@ public class CombosPanel extends JPanel {
 		DefaultFormBuilder builder = new DefaultFormBuilder(lm).border(Borders.DIALOG);
 
 		builder.appendSeparator("Empty combos");
-		JComboBox emptyModelCombo = new JComboBox(new String[] {});
+		JComboBox emptyModelCombo = factory.createComboBox(new String[] {});
 		builder.append("Empty model", emptyModelCombo);
 
-		JComboBox emptyStringCombo = new JComboBox(new String[] { "" });
+		JComboBox emptyStringCombo = factory.createComboBox(new String[] { "" });
 		builder.append("Empty string", emptyStringCombo);
 
-		JComboBox spaceCombo = new JComboBox(new String[] { " " });
+		JComboBox spaceCombo = factory.createComboBox(new String[] { " " });
 		builder.append("Space string", spaceCombo);
 
-		JComboBox emptyEditableCombo = new JComboBox(new String[] {});
+		JComboBox emptyEditableCombo = factory.createComboBox(new String[] {});
 		emptyEditableCombo.setEditable(true);
 		builder.append("Empty model + editable", emptyEditableCombo);
 
-		JComboBox emptyStringEditableCombo = new JComboBox(new String[] { "" });
+		JComboBox emptyStringEditableCombo = factory.createComboBox(new String[] { "" });
 		emptyStringEditableCombo.setEditable(true);
 		builder.append("Empty string + editable", emptyStringEditableCombo);
 
-		JComboBox spaceEditableCombo = new JComboBox(new String[] { " " });
+		JComboBox spaceEditableCombo = factory.createComboBox(new String[] { " " });
 		spaceEditableCombo.setEditable(true);
 		builder.append("Space string + editable", spaceEditableCombo);
 
@@ -263,7 +265,9 @@ public class CombosPanel extends JPanel {
 	/**
 	 * Creates the combobox panel.
 	 */
-	public CombosPanel() {
+	public CombosPanel(ComponentsFactory factory) {
+		this.factory = factory;
+
 		this.setLayout(new BorderLayout());
 
 		JPanel gridPanel = new JPanel();

@@ -36,11 +36,14 @@ import java.util.*;
 import javax.swing.*;
 
 import org.pushingpixels.lightbeam.*;
+import org.pushingpixels.lightbeam.componentsFactory.ComponentsFactory;
 
 public class LightBeamMenuBar extends JMenuBar {
-	public LightBeamMenuBar() {
+	private ComponentsFactory factory;
+	public LightBeamMenuBar(ComponentsFactory factory) {
 		super();
 
+		this.factory = factory;
 		this.add(this.getMenu("0", 0, 5));
 		this.add(this.getMenu("1", 0, 4));
 		this.add(this.getMenu("2", 0, 3));
@@ -49,7 +52,7 @@ public class LightBeamMenuBar extends JMenuBar {
 	}
 
 	private JMenu getMenu(String prefix, int level, int levelToStop) {
-		JMenu result = new JMenu("menu" + prefix);
+		JMenu result = factory.createMenu("menu" + prefix);
 
 		JMenuItem item0 = new JMenuItem("item" + prefix + "0");
 		JMenuItem item1 = new JRadioButtonMenuItem("item" + prefix + "1");

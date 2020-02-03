@@ -40,6 +40,7 @@ import org.pushingpixels.lightbeam.*;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.factories.Borders;
 import com.jgoodies.forms.layout.FormLayout;
+import org.pushingpixels.lightbeam.componentsFactory.ComponentsFactory;
 
 /**
  * Test application panel for testing {@link JTextArea}, {@link JTextField}, {@link JTextPane},
@@ -48,6 +49,7 @@ import com.jgoodies.forms.layout.FormLayout;
  * @author Kirill Grouchnikov
  */
 public class TextFieldsPanel extends JPanel {
+    private ComponentsFactory factory;
     /**
      * Returns the panel contents.
      * 
@@ -66,56 +68,56 @@ public class TextFieldsPanel extends JPanel {
         builder.append("", textLabel);
         builder.append(formattedTextLabel, passwordLabel);
 
-        JTextField jtf1 = new JTextField("sample text");
+        JTextField jtf1 = factory.createTextField("sample text");
         builder.append("Enabled", jtf1);
 
-        JFormattedTextField jftf1 = new JFormattedTextField(new DecimalFormat("###0.0000"));
+        JFormattedTextField jftf1 = factory.createFormattedTextField(new DecimalFormat("###0.0000"));
         jftf1.setText("2430.0000");
-        JPasswordField jpf1 = new JPasswordField("password", 10);
+        JPasswordField jpf1 = factory.createPasswordField("password", 10);
         builder.append(jftf1, jpf1);
 
-        JTextField jtfNotEditable = new JTextField("sample text");
+        JTextField jtfNotEditable = factory.createTextField("sample text");
         jtfNotEditable.setEditable(false);
         builder.append("Not editable", jtfNotEditable);
 
-        JFormattedTextField jftfNotEditable = new JFormattedTextField(
+        JFormattedTextField jftfNotEditable = factory.createFormattedTextField(
                 new DecimalFormat("###0.0000"));
         jftfNotEditable.setText("2430.0000");
         jftfNotEditable.setEditable(false);
-        JPasswordField jpfNotEditable = new JPasswordField("password", 10);
+        JPasswordField jpfNotEditable = factory.createPasswordField("password", 10);
         jpfNotEditable.setEditable(false);
         builder.append(jftfNotEditable, jpfNotEditable);
 
-        JTextField jtfDisabled = new JTextField("sample text");
+        JTextField jtfDisabled = factory.createTextField("sample text");
         jtfDisabled.setEnabled(false);
         builder.append("Disabled", jtfDisabled);
 
-        JFormattedTextField jftfDisabled = new JFormattedTextField(new DecimalFormat("###0.0000"));
+        JFormattedTextField jftfDisabled = factory.createFormattedTextField(new DecimalFormat("###0.0000"));
         jftfDisabled.setText("2430.0000");
         jftfDisabled.setEnabled(false);
-        JPasswordField jpfDisabled = new JPasswordField("password", 10);
+        JPasswordField jpfDisabled = factory.createPasswordField("password", 10);
         jpfDisabled.setEnabled(false);
         builder.append(jftfDisabled, jpfDisabled);
 
-        JTextField jtfNonOpaque = new JTextField("sample text");
+        JTextField jtfNonOpaque = factory.createTextField("sample text");
         jtfNonOpaque.setOpaque(false);
         builder.append("Non opaque", jtfNonOpaque);
 
-        JFormattedTextField jftfNonOpaque = new JFormattedTextField(new DecimalFormat("###0.0000"));
+        JFormattedTextField jftfNonOpaque = factory.createFormattedTextField(new DecimalFormat("###0.0000"));
         jftfNonOpaque.setText("2430.0000");
         jftfNonOpaque.setOpaque(false);
-        JPasswordField jpfNonOpaque = new JPasswordField("password", 10);
+        JPasswordField jpfNonOpaque = factory.createPasswordField("password", 10);
         jpfNonOpaque.setOpaque(false);
         builder.append(jftfNonOpaque, jpfNonOpaque);
 
-        JTextField jtf6 = new JTextField("sample text");
+        JTextField jtf6 = factory.createTextField("sample text");
         jtf6.setMargin(new Insets(2, 2, 2, 2));
         builder.append("All margin 2px", jtf6);
 
-        JFormattedTextField jftf6 = new JFormattedTextField(new DecimalFormat("###0.0000"));
+        JFormattedTextField jftf6 = factory.createFormattedTextField(new DecimalFormat("###0.0000"));
         jftf6.setText("2430.0000");
         jftf6.setMargin(new Insets(2, 2, 2, 2));
-        JPasswordField jpf6 = new JPasswordField("password", 10);
+        JPasswordField jpf6 = factory.createPasswordField("password", 10);
         jpf6.setMargin(new Insets(2, 2, 2, 2));
         builder.append(jftf6, jpf6);
 
@@ -125,7 +127,8 @@ public class TextFieldsPanel extends JPanel {
     /**
      * Creates a test panel with text components.
      */
-    public TextFieldsPanel() {
+    public TextFieldsPanel(ComponentsFactory factory) {
+        this.factory = factory;
         setLayout(new BorderLayout());
         this.add(new JScrollPane(getContents()), BorderLayout.CENTER);
     }

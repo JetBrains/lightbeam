@@ -37,6 +37,7 @@ import javax.swing.*;
 import javax.swing.text.BadLocationException;
 
 import org.pushingpixels.lightbeam.*;
+import org.pushingpixels.lightbeam.componentsFactory.ComponentsFactory;
 
 /**
  * Test application panel for testing {@link JTextArea} component.
@@ -44,15 +45,16 @@ import org.pushingpixels.lightbeam.*;
  * @author Kirill Grouchnikov
  */
 public class BigTextAreaPanel extends JPanel {
+	private ComponentsFactory factory;
 	private JTextArea textArea;
 
 	/**
 	 * Creates a new tabbed panel.
 	 */
-	public BigTextAreaPanel() {
+	public BigTextAreaPanel(ComponentsFactory componentsFactory) {
 		this.setLayout(new BorderLayout());
-
-		this.textArea = new JTextArea();
+		this.factory = componentsFactory;
+		this.textArea = factory.createTextArea();
 
 		this.add(new JScrollPane(this.textArea), BorderLayout.CENTER);
 	}
