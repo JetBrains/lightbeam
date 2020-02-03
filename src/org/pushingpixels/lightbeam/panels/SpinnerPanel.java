@@ -41,6 +41,7 @@ import org.pushingpixels.lightbeam.commands.*;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.factories.Borders;
 import com.jgoodies.forms.layout.FormLayout;
+import org.pushingpixels.lightbeam.componentsFactory.ComponentsFactory;
 
 /**
  * Test application panel for testing {@link JSpinner} component.
@@ -51,21 +52,20 @@ public class SpinnerPanel extends JPanel {
 	/**
 	 * Creates a test panel with spinners.
 	 */
-	public SpinnerPanel() {
+	public SpinnerPanel(ComponentsFactory factory) {
 		this.setLayout(new BorderLayout());
-
 		FormLayout lm = new FormLayout("right:pref, 4dlu, left:pref:grow", "");
 		DefaultFormBuilder builder = new DefaultFormBuilder(lm).border(Borders.DIALOG);
 
 		CreationCommand<Component> basicCr = new CreationCommand<Component>() {
 			public Component create() {
-				JSpinner basicSpinner = new JSpinner(new SpinnerNumberModel());
+				JSpinner basicSpinner = factory.createSpinner(new SpinnerNumberModel());
 				return basicSpinner;
 			}
 		};
 		CreationCommand<Component> dateCr = new CreationCommand<Component>() {
 			public Component create() {
-				JSpinner dateEnSpinner = new JSpinner(new SpinnerDateModel());
+				JSpinner dateEnSpinner = factory.createSpinner(new SpinnerDateModel());
 				return dateEnSpinner;
 			}
 		};
@@ -74,14 +74,14 @@ public class SpinnerPanel extends JPanel {
 				String weekdaysEn[] = new String[] { "Sunday", "Monday",
 						"Tuesday", "Wednesday", "Thursday", "Friday",
 						"Saturday" };
-				JSpinner listEnSpinner = new JSpinner(new SpinnerListModel(
+				JSpinner listEnSpinner = factory.createSpinner(new SpinnerListModel(
 						weekdaysEn));
 				return listEnSpinner;
 			}
 		};
 		CreationCommand<Component> numberCr = new CreationCommand<Component>() {
 			public Component create() {
-				JSpinner numberEnSpinner = new JSpinner(new SpinnerNumberModel(
+				JSpinner numberEnSpinner = factory.createSpinner(new SpinnerNumberModel(
 						0, 0, 100, 5));
 				return numberEnSpinner;
 			}

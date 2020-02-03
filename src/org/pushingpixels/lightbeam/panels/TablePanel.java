@@ -36,6 +36,7 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 import org.pushingpixels.lightbeam.*;
+import org.pushingpixels.lightbeam.componentsFactory.ComponentsFactory;
 
 /**
  * Test application panel for testing {@link JTable} component.
@@ -244,8 +245,8 @@ public class TablePanel extends JPanel {
 	/**
 	 * Creates a test panel with table.
 	 */
-	public TablePanel() {
-		this.table = new JTable(new MyTableModel(1000));
+	public TablePanel(ComponentsFactory factory) {
+		this.table = factory.createTable(new MyTableModel(1000));
 		this.table.setDefaultRenderer(Color.class, new MyColorTableRenderer());
 		this.table.setDefaultRenderer(Float.class, new MyFloatTableRenderer());
 

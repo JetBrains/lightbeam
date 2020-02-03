@@ -36,6 +36,7 @@ import java.util.List;
 import javax.swing.*;
 
 import org.pushingpixels.lightbeam.*;
+import org.pushingpixels.lightbeam.componentsFactory.ComponentsFactory;
 
 /**
  * Test application panel for testing {@link JList} component.
@@ -102,6 +103,9 @@ public class ListPanel extends JPanel {
 		}
 	}
 
+
+	private ComponentsFactory factory;
+
 	/**
 	 * List.
 	 */
@@ -110,10 +114,11 @@ public class ListPanel extends JPanel {
 	/**
 	 * Creates a new list panel.
 	 */
-	public ListPanel() {
+	public ListPanel(ComponentsFactory factory) {
 		super();
+		this.factory = factory;
 		setLayout(new BorderLayout());
-		list = new JList(new MoveableListModel(1000));
+		list = factory.createList(new MoveableListModel(1000));
 
 		final JScrollPane jsp = new JScrollPane(list);
 		this.add(jsp, BorderLayout.CENTER);

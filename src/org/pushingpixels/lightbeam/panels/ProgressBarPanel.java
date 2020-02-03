@@ -40,6 +40,7 @@ import org.pushingpixels.lightbeam.*;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.factories.Borders;
 import com.jgoodies.forms.layout.FormLayout;
+import org.pushingpixels.lightbeam.componentsFactory.ComponentsFactory;
 
 /**
  * Test application panel for testing {@link JProgressBar} component.
@@ -47,10 +48,11 @@ import com.jgoodies.forms.layout.FormLayout;
  * @author Kirill Grouchnikov
  */
 public class ProgressBarPanel extends JPanel {
+
 	/**
 	 * Creates a new panel with progress bars.
 	 */
-	public ProgressBarPanel() {
+	public ProgressBarPanel(ComponentsFactory factory) {
 		this.setLayout(new BorderLayout());
 
 		JPanel bars = new JPanel(new GridLayout(1, 2));
@@ -59,20 +61,20 @@ public class ProgressBarPanel extends JPanel {
 		DefaultFormBuilder horizontalBuilder = new DefaultFormBuilder(
 				horizontalLm).border(Borders.DIALOG);
 
-		JProgressBar determinateEnHor = new JProgressBar(
+		JProgressBar determinateEnHor = factory.createProgressBar(
 				JProgressBar.HORIZONTAL, 0, 100);
 		determinateEnHor.setIndeterminate(false);
 		horizontalBuilder.appendSeparator("Determinate enabled");
 		horizontalBuilder.append(determinateEnHor);
 
-		JProgressBar determinateEnHorStr = new JProgressBar(
+		JProgressBar determinateEnHorStr = factory.createProgressBar(
 				JProgressBar.HORIZONTAL, 0, 100);
 		determinateEnHorStr.setIndeterminate(false);
 		determinateEnHorStr.setStringPainted(true);
 		horizontalBuilder.appendSeparator("Determinate enabled + string");
 		horizontalBuilder.append(determinateEnHorStr);
 
-		JProgressBar indeterminateEnHor = new JProgressBar(
+		JProgressBar indeterminateEnHor = factory.createProgressBar(
 				JProgressBar.HORIZONTAL, 0, 100);
 		indeterminateEnHor.setIndeterminate(true);
 		indeterminateEnHor.setStringPainted(true);
@@ -80,14 +82,14 @@ public class ProgressBarPanel extends JPanel {
 		horizontalBuilder.appendSeparator("Indeterminate enabled + string");
 		horizontalBuilder.append(indeterminateEnHor);
 
-		JProgressBar determinateDisHor = new JProgressBar(
+		JProgressBar determinateDisHor = factory.createProgressBar(
 				JProgressBar.HORIZONTAL, 0, 100);
 		determinateDisHor.setIndeterminate(false);
 		determinateDisHor.setEnabled(false);
 		horizontalBuilder.appendSeparator("Determinate disabled");
 		horizontalBuilder.append(determinateDisHor);
 
-		JProgressBar determinateDisHorStr = new JProgressBar(
+		JProgressBar determinateDisHorStr = factory.createProgressBar(
 				JProgressBar.HORIZONTAL, 0, 100);
 		determinateDisHorStr.setIndeterminate(false);
 		determinateDisHorStr.setEnabled(false);
@@ -95,7 +97,7 @@ public class ProgressBarPanel extends JPanel {
 		horizontalBuilder.appendSeparator("Determinate disabled + string");
 		horizontalBuilder.append(determinateDisHorStr);
 
-		JProgressBar indeterminateDisHor = new JProgressBar(
+		JProgressBar indeterminateDisHor = factory.createProgressBar(
 				JProgressBar.HORIZONTAL, 0, 100);
 		indeterminateDisHor.setIndeterminate(true);
 		indeterminateDisHor.setEnabled(false);
@@ -115,13 +117,13 @@ public class ProgressBarPanel extends JPanel {
 		verticalBuilder.append("Disabled");
 		verticalBuilder.append("Dis indet");
 
-		JProgressBar determinateEnVer = new JProgressBar(JProgressBar.VERTICAL,
+		JProgressBar determinateEnVer = factory.createProgressBar(JProgressBar.VERTICAL,
 				0, 100);
 		determinateEnVer.setIndeterminate(false);
 		determinateEnVer.setStringPainted(true);
 		verticalBuilder.append(determinateEnVer);
 
-		JProgressBar determinateEnVerRTL = new JProgressBar(
+		JProgressBar determinateEnVerRTL = factory.createProgressBar(
 				JProgressBar.VERTICAL, 0, 100);
 		determinateEnVerRTL.setIndeterminate(false);
 		determinateEnVerRTL.setStringPainted(true);
@@ -129,20 +131,20 @@ public class ProgressBarPanel extends JPanel {
 				.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 		verticalBuilder.append(determinateEnVerRTL);
 
-		JProgressBar indeterminateEnVer = new JProgressBar(
+		JProgressBar indeterminateEnVer = factory.createProgressBar(
 				JProgressBar.VERTICAL, 0, 100);
 		indeterminateEnVer.setIndeterminate(true);
 		indeterminateEnVer.setStringPainted(true);
 		indeterminateEnVer.setString("In progress");
 		verticalBuilder.append(indeterminateEnVer);
 
-		JProgressBar determinateDisVer = new JProgressBar(
+		JProgressBar determinateDisVer = factory.createProgressBar(
 				JProgressBar.VERTICAL, 0, 100);
 		determinateDisVer.setIndeterminate(false);
 		determinateDisVer.setEnabled(false);
 		verticalBuilder.append(determinateDisVer);
 
-		JProgressBar indeterminateDisVer = new JProgressBar(
+		JProgressBar indeterminateDisVer = factory.createProgressBar(
 				JProgressBar.VERTICAL, 0, 100);
 		indeterminateDisVer.setIndeterminate(true);
 		indeterminateDisVer.setEnabled(false);
