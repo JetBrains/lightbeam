@@ -1,8 +1,8 @@
 #!/bin/bash
 
-if [ "$1" == "--help"  || ]; then
-  echo "Usage: `basename $0` [somestuff]"
-  exit 0
+if [[ "$#" != "3" || "$1" == "--help" || "$1" == "-h" ]]; then
+    echo "Usage: regression.sh <ligtbeam_output_cur> <ligtbeam_output_prev> <results>"
+    exit 1
 fi
 
 echo "===========getting results from $1=============="
@@ -21,7 +21,7 @@ cat comb.txt
 echo "===========comparing=============="
 awk -F"," '{ if ($1>$5+$5*0.1) {print "* ref("$5"),\tavg "$1",\tratio "$1/$5} else {print "  ref("$5"),\tavg "$1",\tratio "$1/$5} }' comb.txt > comp.txt
 grep "^avg" $1 | sed 's/ \+ /\t/g' | rev | cut -f 1 | rev > u.txt
-paste --delimiter='\t' comp.txt u.txt > $3
+paste -d '\t' comp.txt u.txt > $3
 
 paste -d";" $3 test_names.txt 2>&1 | (
     while IFS="$(printf ';')"  read -r s testname; do
