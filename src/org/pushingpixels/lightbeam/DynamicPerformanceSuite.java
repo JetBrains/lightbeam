@@ -505,10 +505,11 @@ public class DynamicPerformanceSuite {
                                 tcFormatter.format(
                                         "##teamcity[buildStatisticValue key='%7$s:%5$s:%6$s' value='%1$d']",
                                         //"avg %1$4d, min %2$4d, max %3$4d, dev %4$4.2f %5$15s : %6$s",
-                                        avg, min, max, deviance, timesInfo.tabTitle.replace(' ', '_'),
-                                        timesInfo.scenarioName.replace(' ', '_'),
+                                        avg, min, max, deviance,
                                         ("JDK".equals(factory.getType()) ? "": "JB_") +
-                                                lafClass.substring(lafClass.lastIndexOf(".") + 1).trim());
+                                                timesInfo.tabTitle.replace(' ', '_'),
+                                        timesInfo.scenarioName.replace(' ', '_'),
+                                        lafClass.substring(lafClass.lastIndexOf(".") + 1).trim());
                                 tcFormatter.close();
                                 tcReport.append(tcSb.toString() + "\n");
                             }
